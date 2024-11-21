@@ -1,6 +1,6 @@
 import express from "express"
-import verifyToken from "../middlewares/verifyToken"
-import isCommercial from "../middlewares/isCommercial"
+import verifyToken from "../middlewares/verifyToken.js"
+import isCommercial from "../middlewares/isCommercial.js"
 import isClient from "../middlewares/isClient.js"
 import feedbackController from "../controllers/feedbackController.js"
 

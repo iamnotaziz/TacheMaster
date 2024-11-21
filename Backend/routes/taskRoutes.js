@@ -1,7 +1,7 @@
 import express from "express"
 import taskController from "../controllers/taskController.js"
-import verifyToken from "../middlewares/verifyToken"
-import isCommercial from "../middlewares/isCommercial"
+import verifyToken from "../middlewares/verifyToken.js"
+import isCommercial from "../middlewares/isCommercial.js"
 
 const taskRouter = express.Router()
 

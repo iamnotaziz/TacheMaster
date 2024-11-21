@@ -139,7 +139,7 @@ const taskController = {
     updateTaskById,
     deleteTaskById,
     getTasksByCommercialId,
-    getTasksByClientId, // Add the new method to the controller
+    getTasksByClientId,
 };
 
 export default taskController;
