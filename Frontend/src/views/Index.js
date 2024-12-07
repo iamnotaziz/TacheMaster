@@ -48,6 +48,7 @@ const Tables = () => {
                   <tr>
                     <th scope="row">
                       <Media className="align-items-center">
+
                         <Media>
                           <span className="mb-0 text-sm">
                             Argon Design System
