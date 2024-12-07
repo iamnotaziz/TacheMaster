@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { NavLink as NavLinkRRD, Link } from "react-router-dom";
+// nodejs library to set properties for components
 import { PropTypes } from "prop-types";
 
 // reactstrap components
@@ -22,36 +23,36 @@ import {
   Container,
   Row,
   Col,
-  FormGroup,
 } from "reactstrap";
+
 
 const Sidebar = (props) => {
   const [collapseOpen, setCollapseOpen] = useState();
 
-  // Toggle collapse
+  // toggles collapse between opened and closed (true/false)
   const toggleCollapse = () => {
     setCollapseOpen((data) => !data);
   };
-
-  // Close collapse
+  // closes the collapse
   const closeCollapse = () => {
     setCollapseOpen(false);
   };
-
-  // Create links for the sidebar
+  // creates the links that appear in the left menu / Sidebar
   const createLinks = (routes) => {
-    return routes.map((prop, key) => (
-      <NavItem key={key}>
-        <NavLink
-          to={prop.layout + prop.path}
-          tag={NavLinkRRD}
-          onClick={closeCollapse}
-        >
-          <i className={prop.icon} />
-          {prop.name}
-        </NavLink>
-      </NavItem>
-    ));
+    return routes.map((prop, key) => {
+      return (
+        <NavItem key={key}>
+          <NavLink
+            to={prop.layout + prop.path}
+            tag={NavLinkRRD}
+            onClick={closeCollapse}
+          >
+            <i className={prop.icon} />
+            {prop.name}
+          </NavLink>
+        </NavItem>
+      );
+    });
   };
 
   const { routes, logo } = props;
@@ -151,7 +152,35 @@ const Sidebar = (props) => {
         </Nav>
         {/* Collapse */}
         <Collapse navbar isOpen={collapseOpen}>
-          {/* Search Bar */}
+          {/* Collapse header */}
+          <div className="navbar-collapse-header d-md-none">
+            <Row>
+              {logo ? (
+                <Col className="collapse-brand" xs="6">
+                  {logo.innerLink ? (
+                    <Link to={logo.innerLink}>
+                      <img alt={logo.imgAlt} src={logo.imgSrc} />
+                    </Link>
+                  ) : (
+                    <a href={logo.outterLink}>
+                      <img alt={logo.imgAlt} src={logo.imgSrc} />
+                    </a>
+                  )}
+                </Col>
+              ) : null}
+              <Col className="collapse-close" xs="6">
+                <button
+                  className="navbar-toggler"
+                  type="button"
+                  onClick={toggleCollapse}
+                >
+                  <span />
+                  <span />
+                </button>
+              </Col>
+            </Row>
+          </div>
+          {/* Form */}
           <Form className="mt-4 mb-3 d-md-none">
             <InputGroup className="input-group-rounded input-group-merge">
               <Input
@@ -160,31 +189,12 @@ const Sidebar = (props) => {
                 placeholder="Search"
                 type="search"
               />
-              <InputGroupText>
-                <span className="fa fa-search" />
-              </InputGroupText>
+                <InputGroupText>
+                  <span className="fa fa-search" />
+                </InputGroupText>
             </InputGroup>
           </Form>
-          {/* Navigation */}
-          <Nav navbar>
-            {/* Add Search Bar Here for Desktop */}
-            <Form className="search-container d-flex justify-content-center align-items-center">
-  <FormGroup className="mb-0 w-100">
-    <InputGroup className="input-group-lg">
-      <InputGroupText className="input-icon">
-        <i className="fas fa-search" />
-      </InputGroupText>
-      <Input
-        placeholder="Rechercher..."
-        type="text"
-        className="search-input"
-      />
-    </InputGroup>
-  </FormGroup>
-</Form>
-            {/* Links */}
-            {createLinks(routes)}
-          </Nav>
+          <Nav navbar>{createLinks(routes)}</Nav>
         </Collapse>
       </Container>
     </Navbar>
@@ -196,11 +206,18 @@ Sidebar.defaultProps = {
 };
 
 Sidebar.propTypes = {
+  // links that will be displayed inside the component
   routes: PropTypes.arrayOf(PropTypes.object),
   logo: PropTypes.shape({
+    // innerLink is for links that will direct the user within the app
+    // it will be rendered as <Link to="...">...</Link> tag
     innerLink: PropTypes.string,
+    // outterLink is for links that will direct the user outside the app
+    // it will be rendered as simple <a href="...">...</a> tag
     outterLink: PropTypes.string,
+    // the image src of the logo
     imgSrc: PropTypes.string.isRequired,
+    // the alt for the img
     imgAlt: PropTypes.string.isRequired,
   }),
 };

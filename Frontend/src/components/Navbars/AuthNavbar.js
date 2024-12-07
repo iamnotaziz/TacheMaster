@@ -49,7 +49,7 @@ const AdminNavbar = () => {
               <NavItem>
                 <NavLink className="nav-link-icon" to="/" tag={Link}>
                   <i className="ni ni-planet" />
-                  <span className="nav-link-inner--text"></span>
+                  <span className="nav-link-inner--text">Home</span>
                 </NavLink>
               </NavItem>
               <NavItem>
