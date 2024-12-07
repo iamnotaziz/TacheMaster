@@ -17,7 +17,6 @@ import {
   Row,
   UncontrolledTooltip,
 } from "reactstrap";
-// core components
 import Header from "../components/Headers/Header";
 
 const Tables = () => {
@@ -31,16 +30,17 @@ const Tables = () => {
           <div className="col">
             <Card className="shadow">
               <CardHeader className="border-0">
-                <h3 className="mb-0">Card tables</h3>
+                <h3 className="mb-0">Task Manager</h3>
               </CardHeader>
               <Table className="align-items-center table-flush" responsive>
                 <thead className="thead-light">
                   <tr>
-                    <th scope="col">Project</th>
-                    <th scope="col">Budget</th>
+                    <th scope="col">Task</th>
                     <th scope="col">Status</th>
-                    <th scope="col">Users</th>
-                    <th scope="col">Completion</th>
+                    <th scope="col">Commercials</th>
+                    <th scope="col">Clients</th>
+                    <th scope="col">Release Date</th>
+                    <th scope="col">Achievement Date</th>
                     <th scope="col" />
                   </tr>
                 </thead>
@@ -48,16 +48,6 @@ const Tables = () => {
                   <tr>
                     <th scope="row">
                       <Media className="align-items-center">
-                        <a
-                          className="avatar rounded-circle mr-3"
-                          href="#pablo"
-                          onClick={(e) => e.preventDefault()}
-                        >
-                          <img
-                            alt="..."
-                            src={require("../assets/img/theme/bootstrap.jpg")}
-                          />
-                        </a>
                         <Media>
                           <span className="mb-0 text-sm">
                             Argon Design System
