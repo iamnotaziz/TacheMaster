@@ -11,6 +11,8 @@ userRouter.post("/login", userController.loginController);
 
 //private routes
 userRouter.get('/:id', verifyToken, userController.getUserById);
+userRouter.put('/profile-image/:id', verifyToken, userController.changeProfileImage);
+
 
 //only Commercial Access
 userRouter.get('/',verifyToken, isCommercial, userController.getAllUsers);

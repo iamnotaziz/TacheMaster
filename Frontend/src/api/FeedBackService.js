@@ -1,81 +1,17 @@
-import api from "./api";
+import apiRequest from "./apiRequest";
 
-const getAllFeedbacks = async (token) => {
-  try {
-    const response = await api.get("/feedback", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return response.data;
-  } catch (error) {
-    throw error.response?.data || error.message;
-  }
-};
-
-const createFeedback = async (feedbackData, token) => {
-  try {
-    const response = await api.post("/feedback", feedbackData, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return response.data;
-  } catch (error) {
-    throw error.response?.data || error.message;
-  }
-};
-
-const getFeedbackById = async (id, token) => {
-  try {
-    const response = await api.get(`/feedback/${id}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return response.data;
-  } catch (error) {
-    throw error.response?.data || error.message;
-  }
-};
-
-const updateFeedback = async (id, feedbackData, token) => {
-  try {
-    const response = await api.put(`/feedback/${id}`, feedbackData, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return response.data;
-  } catch (error) {
-    throw error.response?.data || error.message;
-  }
-};
-
-const deleteFeedback = async (id, token) => {
-  try {
-    const response = await api.delete(`/feedback/${id}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return response.data;
-  } catch (error) {
-    throw error.response?.data || error.message;
-  }
-};
-
-const getFeedbackByTaskId = async (taskId, token) => {
-  try {
-    const response = await api.get(`/feedback/task/${taskId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return response.data;
-  } catch (error) {
-    throw error.response?.data || error.message;
-  }
-};
-
-const getFeedbackByClientId = async (clientId, token) => {
-  try {
-    const response = await api.get(`/feedback/client/${clientId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return response.data;
-  } catch (error) {
-    throw error.response?.data || error.message;
-  }
-};
+const getAllFeedbacks = (token) => apiRequest("get", "/feedback", null, token);
+const createFeedback = (feedbackData, token) =>
+  apiRequest("post", "/feedback", feedbackData, token);
+const getFeedbackById = (id, token) => apiRequest("get", `/feedback/${id}`, null, token);
+const updateFeedback = (id, feedbackData, token) =>
+  apiRequest("put", `/feedback/${id}`, feedbackData, token);
+const deleteFeedback = (id, token) =>
+  apiRequest("delete", `/feedback/${id}`, null, token);
+const getFeedbackByTaskId = (taskId, token) =>
+  apiRequest("get", `/feedback/task/${taskId}`, null, token);
+const getFeedbackByClientId = (clientId, token) =>
+  apiRequest("get", `/feedback/client/${clientId}`, null, token);
 
 export default {
   getAllFeedbacks,

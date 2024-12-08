@@ -1,13 +1,11 @@
 import React from "react";
 import { useLocation, Route, Routes, Navigate } from "react-router-dom";
-// reactstrap components
 import { Container } from "reactstrap";
-// core components
 import AdminNavbar from "../components/Navbars/AdminNavbar.js";
 import AdminFooter from "../components/Footers/AdminFooter.js";
 import Sidebar from "../components/Sidebar/Sidebar.js";
-
 import routes from "../routes.js";
+import ProtectedRoute from "../ProtectedRoute"; // Import ProtectedRoute
 
 const Admin = (props) => {
   const mainContent = React.useRef(null);
@@ -23,7 +21,7 @@ const Admin = (props) => {
     return routes.map((prop, key) => {
       if (prop.layout === "/admin") {
         return (
-          <Route path={prop.path} element={prop.component} key={key} exact />
+          <Route path={prop.path} element={<ProtectedRoute>{prop.component}</ProtectedRoute>} key={key} exact />
         );
       } else {
         return null;

@@ -108,6 +108,45 @@ const loginController = async (req, res) => {
         res.json({ status: "error", message: error.message });
     }
 };
+const changeProfileImage = async (req, res) => {
+    try {
+        const { id } = req.params; 
+        const { imageUrl } = req.body; 
+
+        if (!imageUrl) {
+            return res.json({
+                status: "error",
+                message: "Image URL is required",
+            });
+        }
+
+        const user = await User.findByIdAndUpdate(
+            id,
+            { image: imageUrl },
+            { new: true } 
+        );
+
+        if (!user) {
+            return res.json({
+                status: "error",
+                message: "User not found",
+            });
+        }
+
+        res.json({
+            status: "success",
+            message: "Profile image updated successfully",
+            data: user,
+        });
+    } catch (error) {
+        res.json({
+            status: "error",
+            message: error.message,
+        });
+    }
+};
+
+
 
 const userController = {
     getUserById,
@@ -115,7 +154,8 @@ const userController = {
     deleteUserById,
     updateUserById,
     createUser,
-    loginController
+    loginController,
+    changeProfileImage
 };
 
 export default userController;

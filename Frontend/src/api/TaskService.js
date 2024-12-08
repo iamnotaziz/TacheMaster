@@ -1,103 +1,16 @@
-import api from "./api";
+import apiRequest from "./apiRequest";
 
-const getAllTasks = async (token) => {
-  try {
-    const response = await api.get("/tasks", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return response.data;
-  } catch (error) {
-    throw error.response?.data || error.message;
-  }
-};
-
-const createTask = async (taskData, token) => {
-  try {
-    const response = await api.post("/tasks", taskData, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return response.data;
-  } catch (error) {
-    throw error.response?.data || error.message;
-  }
-};
-
-const getTaskById = async (id, token) => {
-  try {
-    const response = await api.get(`/tasks/${id}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return response.data;
-  } catch (error) {
-    throw error.response?.data || error.message;
-  }
-};
-
-const updateTask = async (id, taskData, token) => {
-  try {
-    const response = await api.put(`/tasks/${id}`, taskData, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return response.data;
-  } catch (error) {
-    throw error.response?.data || error.message;
-  }
-};
-
-const deleteTask = async (id, token) => {
-  try {
-    const response = await api.delete(`/tasks/${id}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return response.data;
-  } catch (error) {
-    throw error.response?.data || error.message;
-  }
-};
-
-/*const assignClientToTask = async (taskId, clientId, token) => {
-  try {
-    const response = await api.post(`/tasks/${taskId}/assign-client`, { clientId }, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return response.data;
-  } catch (error) {
-    throw error.response?.data || error.message;
-  }
-};
-*/
-const getTasksByCommercialId = async (commercialId, token) => {
-  try {
-    const response = await api.get(`/tasks/commercial/${commercialId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return response.data;
-  } catch (error) {
-    throw error.response?.data || error.message;
-  }
-};
-
-const getTasksByClientId = async (clientId, token) => {
-  try {
-    const response = await api.get(`/tasks/client/${clientId}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return response.data;
-  } catch (error) {
-    throw error.response?.data || error.message;
-  }
-};
-
-/*const getTaskFeedback = async (taskId, token) => {
-  try {
-    const response = await api.get(`/tasks/${taskId}/feedback`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-    return response.data;
-  } catch (error) {
-    throw error.response?.data || error.message;
-  }
-};*/
+const getAllTasks = (token) => apiRequest("get", "/tasks", null, token);
+const createTask = (taskData, token) =>
+  apiRequest("post", "/tasks", taskData, token);
+const getTaskById = (id, token) => apiRequest("get", `/tasks/${id}`, null, token);
+const updateTask = (id, taskData, token) =>
+  apiRequest("put", `/tasks/${id}`, taskData, token);
+const deleteTask = (id, token) => apiRequest("delete", `/tasks/${id}`, null, token);
+const getTasksByCommercialId = (commercialId, token) =>
+  apiRequest("get", `/tasks/commercial/${commercialId}`, null, token);
+const getTasksByClientId = (clientId, token) =>
+  apiRequest("get", `/tasks/client/${clientId}`, null, token);
 
 export default {
   getAllTasks,
@@ -105,8 +18,6 @@ export default {
   getTaskById,
   updateTask,
   deleteTask,
-  //assignClientToTask,
   getTasksByCommercialId,
   getTasksByClientId,
-  //getTaskFeedback,
 };

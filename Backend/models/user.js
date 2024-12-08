@@ -30,6 +30,10 @@ const userSchema = new mongoose.Schema({
     },
     tasks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Task' }], 
     feedbacks: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Feedback' }],
+    image: {
+        type: String, 
+        default: 'https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg', 
+    }
 },
 {
     timestamps:true,
