@@ -219,8 +219,57 @@ const Tables = () => {
           {task.state}
         </Badge>
       </td>
-      <td>{task.commercialId?.username}</td>
-      <td>{task.clientIds.map((c) => c.username).join(", ")}</td>
+      <td>
+        <div className="avatar-group">
+          {task.commercialId && (
+            <a
+              className="avatar avatar-sm"
+              href="#pablo"
+              id={`tooltip${task.commercialId._id}`}
+              onClick={(e) => e.preventDefault()}
+              key={task.commercialId._id}
+            >
+              <img
+                alt="..."
+                className="rounded-circle"
+                src={task.commercialId.imageUrl}
+              />
+              <UncontrolledTooltip
+                delay={0}
+                target={`tooltip${task.commercialId._id}`}
+              >
+                {task.commercialId.username}
+              </UncontrolledTooltip>
+            </a>
+          )}
+        </div>
+      </td>
+      <td>
+        <div className="avatar-group">
+          {task.clientIds.map((client) => (
+            <a
+              className="avatar avatar-sm"
+              href="#pablo"
+              id={`tooltip${client._id}`}
+              onClick={(e) => e.preventDefault()}
+              key={client._id}
+            >
+              <img
+                alt="..."
+                className="rounded-circle"
+                src={client.imageUrl}
+              />
+              <UncontrolledTooltip
+                delay={0}
+                target={`tooltip${client._id}`}
+              >
+                {client.username}
+              </UncontrolledTooltip>
+            </a>
+          ))}
+        </div>
+      </td>
+
       <td>{formatDate(task.releaseDate)}</td>
       <td>{formatDate(task.achievementDate)}</td>
       <td className="text-right">
