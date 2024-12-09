@@ -142,17 +142,18 @@ const Tables = () => {
   const getStatusBadgeColor = (status) => {
     switch (status) {
       case "Canceled":
-        return "bg-danger";
+        return "bg-danger";  
       case "Done":
-        return "bg-success";
-      case "In progress":
-        return "bg-warning";
+        return "bg-success";  
+      case "In Progress":
+        return "bg-warning";  
       case "ToDo":
-        return "bg-info";
+        return "bg-info";  
       default:
-        return "bg-secondary";
+        return "bg-secondary";  
     }
   };
+  
 
   const formatDate = (date) => {
     return new Date(date).toLocaleDateString();
