@@ -26,7 +26,7 @@ import {
 } from "reactstrap";
 
 
-const Sidebar = (props) => {
+const Sidebar = ({ routes = [{}], logo }) => {
   const [collapseOpen, setCollapseOpen] = useState();
 
   // toggles collapse between opened and closed (true/false)
@@ -55,7 +55,6 @@ const Sidebar = (props) => {
     });
   };
 
-  const { routes, logo } = props;
   let navbarBrandProps;
   if (logo && logo.innerLink) {
     navbarBrandProps = {
@@ -201,10 +200,7 @@ const Sidebar = (props) => {
   );
 };
 
-Sidebar.defaultProps = {
-  routes: [{}],
-};
-
+// Utilisation de paramètres par défaut au lieu de defaultProps
 Sidebar.propTypes = {
   // links that will be displayed inside the component
   routes: PropTypes.arrayOf(PropTypes.object),

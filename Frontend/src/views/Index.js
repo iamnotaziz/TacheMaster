@@ -54,16 +54,32 @@ const Tables = () => {
       try {
         const taskResponse = await taskService.getAllTasks(token);
         const clientResponse = await userService.getAllUsers(token);
-
-        setTasks(taskResponse?.data || []);
-        setClients(clientResponse?.data.filter((user) => user.role === "client") || []);
+  
+        // Vérifiez si la réponse contient des données et que ce sont des tableaux
+        if (taskResponse?.data && Array.isArray(taskResponse?.data)) {
+          setTasks(taskResponse.data);
+        } else {
+          console.error("Error: Tasks data is not an array or is undefined");
+          setTasks([]);  // Si ce n'est pas un tableau, initialisez avec un tableau vide
+        }
+  
+        if (clientResponse?.data && Array.isArray(clientResponse?.data)) {
+          // Filtrez les utilisateurs avec le rôle 'client'
+          setClients(clientResponse.data.filter((user) => user.role === "client"));
+        } else {
+          console.error("Error: Clients data is not an array or is undefined");
+          setClients([]);  // Si ce n'est pas un tableau, initialisez avec un tableau vide
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
+        setTasks([]);  // En cas d'erreur, initialisez avec un tableau vide
+        setClients([]);  // En cas d'erreur, initialisez avec un tableau vide
       }
     };
-
+  
     fetchData();
   }, []);
+  
 
   useEffect(() => {
     const user = JSON.parse(localStorage.getItem("user"));
