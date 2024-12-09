@@ -86,12 +86,12 @@ const loginController = async (req, res) => {
 
         const user = await User.findOne({ email });
         if (!user) {
-            res.json({ status: "error", message: "Invalid email" });
+            return res.json({ status: "error", message: "Invalid email" });
         }
 
         const isPasswordValid = await bcrypt.compare(password, user.password);
         if (!isPasswordValid) {
-            res.json({ status: "error", message: "Invalid password" });
+            return res.json({ status: "error", message: "Invalid password" });
         }
 
         
@@ -100,7 +100,7 @@ const loginController = async (req, res) => {
         res.json({
             status: "success",
             message: "Login successful",
-            data: "user",
+            data: user, // Return the actual user object here
             token, 
         });
 
@@ -108,6 +108,7 @@ const loginController = async (req, res) => {
         res.json({ status: "error", message: error.message });
     }
 };
+
 const changeProfileImage = async (req, res) => {
     try {
         const { id } = req.params; 
@@ -146,8 +147,6 @@ const changeProfileImage = async (req, res) => {
     }
 };
 
-
-
 const userController = {
     getUserById,
     getAllUsers,
@@ -159,4 +158,3 @@ const userController = {
 };
 
 export default userController;
-

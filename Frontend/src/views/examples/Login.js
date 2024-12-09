@@ -35,6 +35,11 @@ const Login = () => {
       const data = await userService.loginUser({ email, password });
       console.log("Login Successful", data);
       localStorage.setItem("token", data.token);
+      if (data.data) {
+        localStorage.setItem("user", JSON.stringify(data.data)); // Store user info in local storage
+      } else {
+        console.error("User data is not defined");
+      }
       setSuccess("Login successful! Redirecting..."); 
       setTimeout(() => {
         navigate("/index"); 

@@ -1,4 +1,5 @@
-import mongoose from "mongoose"
+import mongoose from "mongoose";
+import Feedback from './feedback.js'; 
 
 const taskSchema = new mongoose.Schema({
   title: { type: String, required: true },
@@ -19,7 +20,7 @@ const taskSchema = new mongoose.Schema({
   }], 
   feedbacks: [{
     type: mongoose.Schema.Types.ObjectId,
-    ref: 'feedback'
+    ref: 'Feedback'  
   }],
   releaseDate: { 
     type: Date, 
@@ -28,7 +29,7 @@ const taskSchema = new mongoose.Schema({
   achievementDate: { 
     type: Date, 
     default: null 
-  } 
+  }
 });
 
 const Task = mongoose.model('Task', taskSchema);

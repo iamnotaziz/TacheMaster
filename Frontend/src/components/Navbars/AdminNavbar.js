@@ -1,15 +1,10 @@
-import { Link } from "react-router-dom";
-
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import {
   DropdownMenu,
   DropdownItem,
   UncontrolledDropdown,
   DropdownToggle,
-  Form,
-  FormGroup,
-  InputGroupText,
-  Input,
-  InputGroup,
   Navbar,
   Nav,
   Container,
@@ -17,6 +12,29 @@ import {
 } from "reactstrap";
 
 const AdminNavbar = (props) => {
+  const [user, setUser] = useState({});
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Fetch user info from local storage
+    const userInfo = localStorage.getItem("user");
+    if (userInfo) {
+      try {
+        setUser(JSON.parse(userInfo));
+      } catch (error) {
+        console.error("Error parsing user info:", error);
+      }
+    }
+  }, []);
+
+  const handleLogout = () => {
+    // Remove user and token from local storage
+    localStorage.removeItem("token");
+    localStorage.removeItem("user");
+    // Redirect to login page
+    navigate("/auth/login");
+  };
+
   return (
     <>
       <Navbar className="navbar-top navbar-dark" expand="md" id="navbar-main">
@@ -35,12 +53,12 @@ const AdminNavbar = (props) => {
                   <span className="avatar avatar-sm rounded-circle">
                     <img
                       alt="..."
-                      src={require("../../assets/img/theme/team-4-800x800.jpg")}
+                      src={require("../../assets/img/theme/team-4-800x800.jpg")} // Replace with dynamic image if available
                     />
                   </span>
                   <Media className="ml-2 d-none d-lg-block">
                     <span className="mb-0 text-sm font-weight-bold">
-                      Jessica Jones
+                      {user.username || "User"}
                     </span>
                   </Media>
                 </Media>
@@ -53,20 +71,8 @@ const AdminNavbar = (props) => {
                   <i className="ni ni-single-02" />
                   <span>My profile</span>
                 </DropdownItem>
-                <DropdownItem to="/admin/user-profile" tag={Link}>
-                  <i className="ni ni-settings-gear-65" />
-                  <span>Settings</span>
-                </DropdownItem>
-                <DropdownItem to="/admin/user-profile" tag={Link}>
-                  <i className="ni ni-calendar-grid-58" />
-                  <span>Activity</span>
-                </DropdownItem>
-                <DropdownItem to="/admin/user-profile" tag={Link}>
-                  <i className="ni ni-support-16" />
-                  <span>Support</span>
-                </DropdownItem>
                 <DropdownItem divider />
-                <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
+                <DropdownItem href="#pablo" onClick={handleLogout}>
                   <i className="ni ni-user-run" />
                   <span>Logout</span>
                 </DropdownItem>

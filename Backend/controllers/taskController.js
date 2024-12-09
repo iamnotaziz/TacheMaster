@@ -11,6 +11,7 @@ const createTask = async (req, res) => {
             clientIds,
             releaseDate,
             achievementDate,
+            state: req.body.state || 'ToDo'
         });
 
         res.json({
