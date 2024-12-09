@@ -1,4 +1,5 @@
 import Task from "../models/task.js";
+import User from "../models/user.js";
 
 const createTask = async (req, res) => {
     try {
@@ -14,6 +15,16 @@ const createTask = async (req, res) => {
             state: req.body.state || 'ToDo'
         });
 
+        // Update the commercial's tasks array
+        await User.findByIdAndUpdate(commercialId, { $push: { tasks: task._id } });
+
+        // Update each client's tasks array
+        if (Array.isArray(clientIds)) {
+            for (const clientId of clientIds) {
+                await User.findByIdAndUpdate(clientId, { $push: { tasks: task._id } });
+            }
+        }
+
         res.json({
             status: "success",
             message: "Task created successfully",
@@ -23,6 +34,7 @@ const createTask = async (req, res) => {
         res.json({ status: "error", message: error.message });
     }
 };
+
 
 const getTaskById = async (req, res) => {
     try {
@@ -103,25 +115,36 @@ const deleteTaskById = async (req, res) => {
 
 const getTasksByCommercialId = async (req, res) => {
     try {
+        console.log("Fetching tasks for commercialId:", req.params.commercialId);
         const tasks = await Task.find({ commercialId: req.params.commercialId })
             .populate("commercialId", "username email")
             .populate("clientIds", "username email");
 
+        if (!tasks.length) {
+            console.log("No tasks found for commercialId:", req.params.commercialId);
+        }
+        
         res.json({
             status: "success",
             message: "Tasks retrieved successfully",
             data: tasks,
         });
     } catch (error) {
+        console.error("Error fetching tasks by commercialId:", error);
         res.json({ status: "error", message: error.message });
     }
 };
 
 const getTasksByClientId = async (req, res) => {
     try {
+        console.log("Fetching tasks for clientId:", req.params.clientId);
         const tasks = await Task.find({ clientIds: req.params.clientId })
             .populate("commercialId", "username email")
             .populate("clientIds", "username email");
+
+        if (!tasks.length) {
+            console.log("No tasks found for clientId:", req.params.clientId);
+        }
 
         res.json({
             status: "success",
@@ -129,9 +152,11 @@ const getTasksByClientId = async (req, res) => {
             data: tasks,
         });
     } catch (error) {
+        console.error("Error fetching tasks by clientId:", error);
         res.json({ status: "error", message: error.message });
     }
 };
+
 
 const taskController = {
     createTask,
