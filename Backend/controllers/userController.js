@@ -94,8 +94,12 @@ const loginController = async (req, res) => {
             return res.json({ status: "error", message: "Invalid password" });
         }
 
-        
         const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_KEY);
+
+        // Update local storage with the user info and token
+        localStorage.setItem("user", JSON.stringify(user));
+        localStorage.setItem("userId", user._id);
+        localStorage.setItem("token", token);
 
         res.json({
             status: "success",
@@ -103,11 +107,11 @@ const loginController = async (req, res) => {
             data: user, // Return the actual user object here
             token, 
         });
-
     } catch (error) {
         res.json({ status: "error", message: error.message });
     }
 };
+
 
 const changeProfileImage = async (req, res) => {
     try {

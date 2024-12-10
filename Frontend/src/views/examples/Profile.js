@@ -25,42 +25,45 @@ const Profile = () => {
     const userId = localStorage.getItem("userId");
 
     if (!userId) {
-      setError("User ID is not defined");
-      return;
+        setError("User ID is not defined");
+        return;
     }
 
-    userService.getUserById(userId, token)
-      .then(response => {
-        console.log("User API Response:", response);
-        if (!response.data) {
-          throw new Error("User data is undefined");
-        }
-        console.log("User data:", response.data);
-        setUser(response.data);
+    console.log("User ID:", userId);
+    console.log("Token:", token);
 
-        // Fetch tasks based on user role
-        if (response.data.role === 'commercial') {
-          return taskService.getTasksByCommercialId(response.data._id, token);
-        } else if (response.data.role === 'client') {
-          return taskService.getTasksByClientId(response.data._id, token);
-        } else {
-          throw new Error("Invalid user role");
-        }
-      })
-      .then(taskResponse => {
-        console.log("Task API Response:", taskResponse);
-        if (taskResponse && taskResponse.data && Array.isArray(taskResponse.data)) {
-          console.log("Tasks data:", taskResponse.data);
-          setTasks(taskResponse.data);
-        } else {
-          throw new Error("Tasks data is not an array or is undefined");
-        }
-      })
-      .catch(error => {
-        console.error("Error fetching data:", error);
-        setError(error.message);
-      });
-  }, []);
+    userService.getUserById(userId, token)
+        .then(response => {
+            console.log("User API Response:", response);
+            if (!response.data) {
+                throw new Error("User data is undefined");
+            }
+            setUser(response.data);
+
+            if (response.data.role === 'commercial') {
+                console.log("Fetching tasks for commercial ID:", response.data._id);
+                return taskService.getTasksByCommercialId(response.data._id, token);
+            } else if (response.data.role === 'client') {
+                console.log("Fetching tasks for client ID:", response.data._id);
+                return taskService.getTasksByClientId(response.data._id, token);
+            } else {
+                throw new Error("Invalid user role");
+            }
+        })
+        .then(taskResponse => {
+            console.log("Task API Response:", taskResponse);
+            if (taskResponse && taskResponse.data && Array.isArray(taskResponse.data)) {
+                console.log("Tasks data:", taskResponse.data);
+                setTasks(taskResponse.data);
+            } else {
+                throw new Error("Tasks data is not an array or is undefined");
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching data:", error);
+            setError(error.message);
+        });
+}, []);
 
   if (!user) {
     return <p>Loading...</p>;
@@ -93,9 +96,8 @@ const Profile = () => {
                 <Row>
                   <div className="col">
                     <div className="card-profile-stats d-flex justify-content-center mt-md-5">
- 
                       <div>
-                        <span className="heading">10</span>
+                        <span className="heading">{tasks.length}</span>
                         <span className="description">Tasks</span>
                       </div>
                     </div>
@@ -118,7 +120,6 @@ const Profile = () => {
                       {user.role}
                   </div>
                   <hr className="my-4" />
-                  
                 </div>
               </CardBody>
             </Card>
@@ -130,7 +131,6 @@ const Profile = () => {
                   <Col xs="8">
                     <h3 className="mb-0">My account</h3>
                   </Col>
-
                 </Row>
               </CardHeader>
               <CardBody>
@@ -218,22 +218,21 @@ const Profile = () => {
                   <h6 className="heading-small text-muted mb-4">Tasks</h6>
                   <div className="pl-lg-4">
                     <FormGroup>
-                    <Row>
-                      <Col xl="12">
-                        <Card className="shadow">
-                          <CardHeader className="border-0">
-                          </CardHeader>
-                          <CardBody>
-                            {error && <p className="text-danger">{error}</p>}
-                          <ul>
-                            {(tasks || []).map(task => (
-                            <li key={task._id}>{task.name}</li>
-                            ))}
-                          </ul>
-                          </CardBody>
-                        </Card>
-                      </Col>
-                    </Row>
+                      <Row>
+                        <Col xl="12">
+                          <Card className="shadow">
+                            <CardHeader className="border-0"></CardHeader>
+                            <CardBody>
+                              {error && <p className="text-danger">{error}</p>}
+                              <ul>
+                                {tasks.map((task, index) => (
+                                  <li key={index}>{task.title}</li>
+                                ))}
+                              </ul>
+                            </CardBody>
+                          </Card>
+                        </Col>
+                      </Row>
                     </FormGroup>
                   </div>
                 </Form>
