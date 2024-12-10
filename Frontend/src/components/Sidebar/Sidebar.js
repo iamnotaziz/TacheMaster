@@ -2,7 +2,7 @@ import { useState } from "react";
 import { NavLink as NavLinkRRD, Link } from "react-router-dom";
 // nodejs library to set properties for components
 import { PropTypes } from "prop-types";
-
+import "./Sidebar.css"; 
 // reactstrap components
 import {
   Collapse,
@@ -86,12 +86,13 @@ const Sidebar = ({ routes = [{}], logo }) => {
         {/* Brand */}
         {logo ? (
           <NavbarBrand className="pt-0" {...navbarBrandProps}>
-            <img
-              alt={logo.imgAlt}
-              className="navbar-brand-img"
-              src={logo.imgSrc}
-            />
-          </NavbarBrand>
+          <img
+            alt={logo.imgAlt}
+            className="navbar-brand-img custom-logo"  
+            src={require("../../assets/img/theme/logo.jpeg")} 
+          />
+        </NavbarBrand>
+        
         ) : null}
         {/* User */}
         <Nav className="align-items-center d-md-none">

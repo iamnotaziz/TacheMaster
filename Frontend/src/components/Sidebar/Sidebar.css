@@ -1,0 +1,34 @@
+/* Style principal du logo */
+.professional-logo {
+  width: 200px; /* Largeur augmentée */
+  height: auto; /* Préserve les proportions */
+  padding: 20px; /* Espacement interne ajusté pour équilibrer le cadre */
+  background: linear-gradient(135deg, #ffffff, #f8f9fa); /* Fond dégradé doux */
+  border: 4px solid #007bff; /* Bordure légèrement plus épaisse */
+  border-radius: 25px; /* Coins arrondis */
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* Ombre plus marquée pour un effet équilibré */
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; /* Animations */
+}
+
+/* Effets au survol */
+.professional-logo:hover {
+  transform: scale(1.1); /* Zoom léger au survol */
+  box-shadow: 0 16px 24px rgba(0, 0, 0, 0.3); /* Ombre accentuée */
+  border-color: #0056b3; /* Couleur de bordure plus sombre */
+  cursor: pointer; /* Curseur interactif */
+}
+
+/* Adaptation pour les petits écrans */
+@media (max-width: 768px) {
+  .professional-logo {
+    width: 150px; /* Taille ajustée pour les écrans moyens */
+    padding: 15px; /* Espacement réduit */
+  }
+}
+
+@media (max-width: 480px) {
+  .professional-logo {
+    width: 120px; /* Taille ajustée pour les petits écrans */
+    padding: 10px; /* Espacement réduit */
+  }
+}
