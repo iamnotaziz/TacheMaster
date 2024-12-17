@@ -144,6 +144,8 @@ const getTasksByClientId = async (req, res) => {
 
         if (!tasks.length) {
             console.log("No tasks found for clientId:", req.params.clientId);
+        } else {
+            console.log("Tasks found:", tasks);
         }
 
         res.json({
@@ -156,6 +158,7 @@ const getTasksByClientId = async (req, res) => {
         res.json({ status: "error", message: error.message });
     }
 };
+
 
 
 const taskController = {

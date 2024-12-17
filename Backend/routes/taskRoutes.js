@@ -12,7 +12,7 @@ taskRouter.get("/:id", verifyToken, taskController.getTaskById)
 //Only Commercial Access
 taskRouter.delete("/:id", verifyToken, isCommercial, taskController.deleteTaskById)
 taskRouter.put("/:id", verifyToken, isCommercial, taskController.updateTaskById) 
-taskRouter.get("/commercial/:id", verifyToken, isCommercial, taskController.getTasksByCommercialId)
-taskRouter.get("/client/:id", verifyToken, isCommercial, taskController.getTasksByClientId)
+taskRouter.get("/commercial/:commercialId", verifyToken, isCommercial, taskController.getTasksByCommercialId)
+taskRouter.get("/client/:clientId", verifyToken, taskController.getTasksByClientId)
 
 export default taskRouter
