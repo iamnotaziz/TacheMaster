@@ -27,6 +27,7 @@ import Header from "../components/Headers/Header";
 import taskService from "../api/TaskService";
 import userService from "../api/UserService";
 
+
 const Tables = () => {
   const [tasks, setTasks] = useState([]);
   const [clients, setClients] = useState([]);
@@ -167,6 +168,34 @@ const Tables = () => {
     setTaskDetails(task);
     toggleTaskDetailModal();
   };
+  // Feedback state and function
+// State for feedback input
+const [feedback, setFeedback] = useState("");
+
+// Function to handle feedback submission
+const handleAddFeedback = async (e) => {
+  e.preventDefault();
+
+  try {
+    // Assuming `createFeedback` from your API helper
+    await setFeedback(
+      { taskId: taskDetails._id, feedback }, 
+      // eslint-disable-next-line no-undef
+      userToken // Assuming userToken is available
+    );
+
+    alert("Feedback submitted successfully!");
+    setFeedback(""); // Clear form
+    toggleTaskDetailModal(); // Close modal
+  } catch (error) {
+    console.error("Error submitting feedback:", error);
+    alert("Failed to submit feedback. Please try again.");
+  }
+};
+
+
+
+
 
   return (
     <>
@@ -433,28 +462,57 @@ const Tables = () => {
 
       {/* Modal for Task Details */}
       <Modal isOpen={taskDetailModal} toggle={toggleTaskDetailModal}>
-        <ModalHeader toggle={toggleTaskDetailModal}>Task Details</ModalHeader>
-        <ModalBody>
-          {taskDetails ? (
-            <div>
-              <h5>Title: {taskDetails.title}</h5>
-              <p>Description: {taskDetails.description}</p>
-              <p>Status: {taskDetails.state}</p>
-              <p>Release Date: {formatDate(taskDetails.releaseDate)}</p>
-              <p>Achievement Date: {formatDate(taskDetails.achievementDate)}</p>
-              <p>Commercial: {taskDetails.commercialId?.username}</p>
-              <p>Clients: {taskDetails.clientIds.map(client => client.username).join(", ")}</p>
-            </div>
-          ) : (
-            <p>Loading details...</p>
-          )}
-        </ModalBody>
-        <ModalFooter>
-          <Button color="secondary" onClick={toggleTaskDetailModal}>
-            Close
-          </Button>
-        </ModalFooter>
-      </Modal>
+  <ModalHeader toggle={toggleTaskDetailModal}>Task Details</ModalHeader>
+  <ModalBody>
+    {taskDetails ? (
+      <div>
+        <h5>Title: {taskDetails.title}</h5>
+        <p>Description: {taskDetails.description}</p>
+        <p>Status: {taskDetails.state}</p>
+        <p>Release Date: {formatDate(taskDetails.releaseDate)}</p>
+        <p>Achievement Date: {formatDate(taskDetails.achievementDate)}</p>
+        <p>Commercial: {taskDetails.commercialId?.username}</p>
+        <p>Clients: {taskDetails.clientIds.map(client => client.username).join(", ")}</p>
+
+        {/* Feedback Form - Show only if task is completed */}
+        {taskDetails.state === "Done" ? (
+          <>
+            <h5 className="mt-4">Add Feedback</h5>
+            <Form onSubmit={handleAddFeedback}>
+              <FormGroup>
+                <Label for="feedbackText">Feedback</Label>
+                <Input
+                  type="textarea"
+                  id="feedbackText"
+                  name="feedback"
+                  value={feedback}
+                  onChange={(e) => setFeedback(e.target.value)}
+                  placeholder="Enter your feedback"
+                  required
+                />
+              </FormGroup>
+              <Button color="primary" type="submit">
+                Submit Feedback
+              </Button>
+            </Form>
+          </>
+        ) : (
+          <p className="text-muted mt-3">
+            Feedback can only be added after the task is completed.
+          </p>
+        )}
+      </div>
+    ) : (
+      <p>Loading details...</p>
+    )}
+  </ModalBody>
+  <ModalFooter>
+    <Button color="secondary" onClick={toggleTaskDetailModal}>
+      Close
+    </Button>
+  </ModalFooter>
+</Modal>
+
     </>
   );
 };
